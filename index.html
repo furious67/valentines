@@ -24,9 +24,9 @@
     h1 { margin-bottom: 1.5rem; font-size: 1.6rem; color: #000; }
 
     .buttons { position: relative; height: 140px; }
-    button { position: absolute; padding: 0.8rem 1.4rem; font-size: 1rem; border-radius: 999px; border: none; cursor: pointer; touch-action: manipulation; z-index: 1; transition: transform 0.3s ease; }
-    #yes { background: #e63946; color: white; left: 50%; transform: translateX(-50%); bottom: 0; z-index: 0; }
-    #no { background: #f1f1f1; color: #333; left: 50%; transform: translateX(-50%); top: 0; z-index: 2; }
+    button { position: absolute; padding: 0.8rem 1.4rem; font-size: 1rem; border-radius: 999px; border: none; cursor: pointer; touch-action: manipulation; z-index: 10; transition: transform 0.3s ease; }
+    #yes { background: #e63946; color: white; left: 50%; transform: translateX(-50%); bottom: 0; }
+    #no { background: #f1f1f1; color: #333; left: 50%; transform: translateX(-50%); top: 0; }
 
     .love { font-size: 1.4rem; color: #e63946; margin-top: 1rem; }
 
@@ -92,7 +92,8 @@
     imgEl.style.boxShadow = '0 10px 25px rgba(0,0,0,0.25)';
     imgEl.style.transition = 'opacity 0.3s ease';
     imgEl.style.opacity = '0';
-    imgEl.style.zIndex = '3';
+    imgEl.style.zIndex = '5';
+    imgEl.style.pointerEvents = 'none';
     document.body.appendChild(imgEl);
 
     let noClickCount = 0;
@@ -113,9 +114,7 @@
         attempts++;
       } while (
         attempts < 50 && (
-          // Avoid overlapping yes button
           (x + btnRect.width + padding > yesRect.left - containerRect.left && x < yesRect.right - containerRect.left + padding && y + btnRect.height + padding > yesRect.top - containerRect.top && y < yesRect.bottom - containerRect.top) ||
-          // Avoid overlapping card
           (x + btnRect.width > cardRect.left && x < cardRect.right && y + btnRect.height > cardRect.top && y < cardRect.bottom)
         )
       );
@@ -129,7 +128,7 @@
       imgEl.src = availableImages[idx];
       availableImages.splice(idx, 1);
 
-      // Position image avoiding the card area
+      // Position image avoiding the card
       let imgX, imgY, attemptsImg = 0;
       do {
         imgX = Math.random() * (window.innerWidth - 180);
@@ -159,8 +158,8 @@
       }
     }
 
+    noBtn.addEventListener('click', moveNoButton);
     noBtn.addEventListener('touchstart', moveNoButton);
-    noBtn.addEventListener('mouseenter', moveNoButton);
 
     yesBtn.addEventListener('click', () => {
       mainCard.style.display = 'none';
