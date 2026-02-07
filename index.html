@@ -284,19 +284,22 @@
     }
 
     // Mobile-friendly: triggers on touch AND mouse
-    noBtn.addEventListener('touchstart', () => {
-      if (navigator.vibrate) {
-        navigator.vibrate([20, 30, 20]); // playful panic buzz
-      }
+    // Mobile-friendly: triggers on touch AND mouse
+    noBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+    noBtn.addEventListener('mouseenter', moveNoButton);f unavailable
       moveNoButton();
     });
     noBtn.addEventListener('mouseenter', moveNoButton);
     noBtn.addEventListener('mouseenter', moveNoButton);
 
     yesBtn.addEventListener('click', () => {
-      if (navigator.vibrate) {
-        navigator.vibrate([60, 40, 60]); // celebratory buzz
-      }
+      response.textContent = 'YAY!!! 🎉🎉🎉';
+      response.style.display = 'block';
+      buttons.style.display = 'none';
+    });f unavailable
       response.textContent = 'YAY!!! 🎉🎉🎉';
       response.style.display = 'block';
       buttons.style.display = 'none';
