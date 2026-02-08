@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Be My Valentine?</title>
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     body {
@@ -15,179 +15,208 @@
       align-items: center;
       justify-content: center;
       background: linear-gradient(135deg, #c7e8c2, #e8f5e6);
-      font-family: 'Comic Neue', 'Comic Sans MS', 'Comic Sans', cursive, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive, system-ui;
       overflow: hidden;
-      transition: background 0.5s ease;
     }
 
-    .card { background: white; padding: 2rem 1.5rem; border-radius: 20px; text-align: center; width: min(90vw, 360px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); transition: all 0.5s ease; }
-    h1 { margin-bottom: 1.5rem; font-size: 1.6rem; color: #000; }
+    .card {
+      position: relative;
+      background: white;
+      padding: 2rem 1.5rem;
+      border-radius: 20px;
+      text-align: center;
+      width: min(90vw, 360px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      z-index: 5;
+    }
 
-    .buttons { position: relative; height: 140px; }
-    button { position: absolute; padding: 0.8rem 1.4rem; font-size: 1rem; border-radius: 999px; border: none; cursor: pointer; touch-action: manipulation; z-index: 10; transition: transform 0.3s ease; }
-    #yes { background: #e63946; color: white; left: 50%; transform: translateX(-50%); bottom: 0; }
-    #no { background: #f1f1f1; color: #333; left: 50%; transform: translateX(-50%); top: 0; }
+    h1 { font-size: 1.6rem; margin-bottom: 1.5rem; }
 
-    .love { font-size: 1.4rem; color: #e63946; margin-top: 1rem; }
+    .buttons {
+      position: relative;
+      height: 160px;
+    }
 
-    .gif-container {
+    button {
+      position: absolute;
+      padding: 0.8rem 1.4rem;
+      font-size: 1rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+      touch-action: manipulation;
+      z-index: 10;
+      transition: transform 0.25s ease;
+    }
+
+    #yes {
+      background: #e63946;
+      color: white;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+    }
+
+    #no {
+      background: #f1f1f1;
+      color: #333;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+    }
+
+    .popup-img {
+      position: fixed;
+      max-width: 180px;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .gif-page {
       display: none;
       position: fixed;
       inset: 0;
-      display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      background: transparent;
       z-index: 20;
     }
-    .gif-container img {
+
+    .gif-page img {
       max-width: 85vw;
       max-height: 60vh;
       border-radius: 20px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.25);
     }
-    .gif-subtext {
-      margin-bottom: 1rem;
-      color: #e63946;
-      font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
-      font-size: 2.2rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-      text-align: center;
+
+    .yay { font-size: 2.2rem; color: #e63946; margin-bottom: 1rem; }
+
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 100;
     }
 
-    .confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 1000; }
-    .confetti-piece { position: absolute; width: 10px; height: 10px; opacity: 0.7; animation: fall 3s linear infinite; }
-    @keyframes fall { 0% {transform: translateY(0) rotate(0deg);} 100% {transform: translateY(100vh) rotate(360deg);} }
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      opacity: 0.8;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      from { transform: translateY(-10vh) rotate(0deg); }
+      to { transform: translateY(110vh) rotate(360deg); }
+    }
   </style>
 </head>
 <body>
-  <div class="card" id="mainCard">
+
+  <div class="card" id="card">
     <h1>michele, will you be my valentine? 💘</h1>
-    <div class="buttons">
+    <div class="buttons" id="buttonArea">
       <button id="no">No</button>
       <button id="yes">Yes 💕</button>
     </div>
-    <div id="response" class="love" style="display:none;"></div>
   </div>
 
-  <div class="gif-container" id="gifPage">
-    <div class="gif-subtext">YAY! 🎉🎉🎉</div>
-    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGYzcnljbDdjMzFudjR5dGdoZnRyeGd5YXg4NGkzN3BxaGswbjk0YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kVUyaJy5RZ6OCtRppP/giphy.gif" alt="Love Gif" />
+  <!-- Only one image visible at a time -->
+  <img id="popupImg" class="popup-img" />
+
+  <div class="gif-page" id="gifPage">
+    <div class="yay">YAY! 🎉🎉🎉</div>
+    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGYzcnljbDdjMzFudjR5dGdoZnRyeGd5YXg4NGkzN3BxaGswbjk0YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kVUyaJy5RZ6OCtRppP/giphy.gif" />
     <div class="confetti" id="confetti"></div>
   </div>
 
-  <script>
-    const noBtn = document.getElementById('no');
-    const yesBtn = document.getElementById('yes');
-    const buttons = document.querySelector('.buttons');
-    const mainCard = document.getElementById('mainCard');
-    const gifPage = document.getElementById('gifPage');
-    const confettiContainer = document.getElementById('confetti');
+<script>
+  const noBtn = document.getElementById('no');
+  const yesBtn = document.getElementById('yes');
+  const card = document.getElementById('card');
+  const gifPage = document.getElementById('gifPage');
+  const area = document.getElementById('buttonArea');
+  const popupImg = document.getElementById('popupImg');
+  const confetti = document.getElementById('confetti');
 
-    const images = [
-      'https://i.imgur.com/SzUQQWo.png',
-      'https://i.imgur.com/DElnRj0.png',
-      'https://i.imgur.com/tUqLuE8.jpeg',
-      'https://i.imgur.com/akrXQfp.jpeg',
-      'https://i.imgur.com/McUZoDm.jpeg',
-      'https://i.imgur.com/8A1sxAz.png',
-      'https://i.imgur.com/UD2dYUo.jpeg',
-      'https://i.imgur.com/fbbXhG1.png',
-      'https://i.imgur.com/5Z01rYB.png',
-      'https://i.imgur.com/Nn0UWqb.jpeg',
-      'https://i.imgur.com/MmDMkLE.png',
-      'https://i.imgur.com/feRUFV1.jpeg',
-      'https://i.imgur.com/yhgP8Oi.png',
-      'https://i.imgur.com/WmmokGZ.jpeg',
-      'https://i.imgur.com/xCYsXCx.png',
-      'https://i.imgur.com/3cvYuN3.jpeg'
-    ];
+  const images = [
+    'https://i.imgur.com/SzUQQWo.png','https://i.imgur.com/DElnRj0.png','https://i.imgur.com/tUqLuE8.jpeg','https://i.imgur.com/akrXQfp.jpeg','https://i.imgur.com/McUZoDm.jpeg','https://i.imgur.com/8A1sxAz.png','https://i.imgur.com/UD2dYUo.jpeg','https://i.imgur.com/fbbXhG1.png',
+    'https://i.imgur.com/5Z01rYB.png','https://i.imgur.com/Nn0UWqb.jpeg','https://i.imgur.com/MmDMkLE.png','https://i.imgur.com/feRUFV1.jpeg','https://i.imgur.com/yhgP8Oi.png','https://i.imgur.com/WmmokGZ.jpeg','https://i.imgur.com/xCYsXCx.png','https://i.imgur.com/3cvYuN3.jpeg'
+  ];
 
-    let availableImages = [...images];
-    let yesScale = 1;
+  let unused = [...images];
+  let yesScale = 1;
 
-    const imgEl = document.createElement('img');
-    imgEl.style.position = 'absolute';
-    imgEl.style.maxWidth = '180px';
-    imgEl.style.borderRadius = '14px';
-    imgEl.style.boxShadow = '0 10px 25px rgba(0,0,0,0.25)';
-    imgEl.style.transition = 'opacity 0.3s ease';
-    imgEl.style.opacity = '0';
-    imgEl.style.zIndex = '5';
-    imgEl.style.pointerEvents = 'none';
-    document.body.appendChild(imgEl);
+  function moveNo() {
+    const areaRect = area.getBoundingClientRect();
+    const noRect = noBtn.getBoundingClientRect();
+    const yesRect = yesBtn.getBoundingClientRect();
+    const padding = 20;
 
-    let noClickCount = 0;
+    let x, y, tries = 0;
+    do {
+      x = Math.random() * (areaRect.width - noRect.width);
+      y = Math.random() * (areaRect.height - noRect.height);
+      tries++;
+    } while (
+      tries < 50 &&
+      x + noRect.width + padding > yesRect.left - areaRect.left &&
+      x < yesRect.right - areaRect.left + padding &&
+      y + noRect.height + padding > yesRect.top - areaRect.top &&
+      y < yesRect.bottom - areaRect.top + padding
+    );
 
-    function moveNoButton() {
-      const containerRect = buttons.getBoundingClientRect();
-      const btnRect = noBtn.getBoundingClientRect();
-      const yesRect = yesBtn.getBoundingClientRect();
-      const cardRect = mainCard.getBoundingClientRect();
-      const padding = 16;
-      const maxX = containerRect.width - btnRect.width;
-      const maxY = containerRect.height - btnRect.height;
-      let x, y, attempts = 0;
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+    noBtn.style.transform = 'none';
 
-      do {
-        x = Math.random() * maxX;
-        y = Math.random() * maxY;
-        attempts++;
-      } while (
-        attempts < 50 && (
-          (x + btnRect.width + padding > yesRect.left - containerRect.left && x < yesRect.right - containerRect.left + padding && y + btnRect.height + padding > yesRect.top - containerRect.top && y < yesRect.bottom - containerRect.top) ||
-          (x + btnRect.width > cardRect.left && x < cardRect.right && y + btnRect.height > cardRect.top && y < cardRect.bottom)
-        )
-      );
+    if (unused.length === 0) unused = [...images];
+    const imgSrc = unused.splice(Math.floor(Math.random() * unused.length), 1)[0];
 
-      noBtn.style.left = `${x}px`;
-      noBtn.style.top = `${y}px`;
-      noBtn.style.transform = 'none';
+    // Replace the old image with new one
+    popupImg.src = imgSrc;
 
-      if (availableImages.length === 0) availableImages = [...images];
-      const idx = Math.floor(Math.random() * availableImages.length);
-      imgEl.src = availableImages[idx];
-      availableImages.splice(idx, 1);
+    let imgX, imgY;
+    do {
+      imgX = Math.random() * (window.innerWidth - 180);
+      imgY = Math.random() * (window.innerHeight - 180);
+    } while (
+      imgX > areaRect.left - 180 && imgX < areaRect.right &&
+      imgY > areaRect.top - 180 && imgY < areaRect.bottom
+    );
 
-      // Position image avoiding the card
-      let imgX, imgY, attemptsImg = 0;
-      do {
-        imgX = Math.random() * (window.innerWidth - 180);
-        imgY = Math.random() * (window.innerHeight - 180);
-        attemptsImg++;
-      } while (attemptsImg < 50 && (imgX + 180 > cardRect.left && imgX < cardRect.right && imgY + 180 > cardRect.top && imgY < cardRect.bottom));
+    popupImg.style.left = imgX + 'px';
+    popupImg.style.top = imgY + 'px';
 
-      imgEl.style.left = `${imgX}px`;
-      imgEl.style.top = `${imgY}px`;
-      imgEl.style.opacity = '1';
-      clearTimeout(imgEl._timeout);
-      imgEl._timeout = setTimeout(() => { imgEl.style.opacity = '0'; }, 1500);
+    yesScale += 0.05;
+    yesBtn.style.transform = `translateX(-50%) scale(${yesScale})`;
+  }
 
-      noClickCount++;
-      const scale = 1 + noClickCount * 0.05;
-      yesBtn.style.transform = `translateX(-50%) scale(${scale})`;
+  function startConfetti() {
+    for (let i = 0; i < 160; i++) {
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.backgroundColor = `hsl(${Math.random()*360},100%,50%)`;
+      p.style.animationDuration = 2 + Math.random()*2 + 's';
+      confetti.appendChild(p);
     }
+  }
 
-    function startConfetti() {
-      for (let i = 0; i < 150; i++) {
-        const piece = document.createElement('div');
-        piece.className = 'confetti-piece';
-        piece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-        piece.style.left = `${Math.random() * 100}vw`;
-        piece.style.animationDuration = `${2 + Math.random() * 2}s`;
-        confettiContainer.appendChild(piece);
-      }
-    }
+  noBtn.addEventListener('click', moveNo);
+  noBtn.addEventListener('touchstart', moveNo);
 
-    noBtn.addEventListener('click', moveNoButton);
-    noBtn.addEventListener('touchstart', moveNoButton);
+  yesBtn.addEventListener('click', () => {
+    card.style.display = 'none';
+    gifPage.style.display = 'flex';
+    startConfetti();
+  });
+</script>
 
-    yesBtn.addEventListener('click', () => {
-      mainCard.style.display = 'none';
-      gifPage.style.display = 'block';
-      startConfetti();
-    });
-  </script>
 </body>
 </html>
