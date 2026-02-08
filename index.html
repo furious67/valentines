@@ -15,7 +15,7 @@
       align-items: center;
       justify-content: center;
       background: linear-gradient(135deg, #c7e8c2, #e8f5e6);
-      font-family: 'Comic Sans MS', 'Comic Sans', cursive, system-ui;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive, -apple-system, system-ui;
       overflow: hidden;
     }
 
@@ -30,7 +30,7 @@
       z-index: 5;
     }
 
-    h1 { font-size: 1.6rem; margin-bottom: 1.5rem; }
+    h1 { font-size: 1.6rem; margin-bottom: 1.5rem; font-family: 'Comic Sans MS', 'Comic Sans', cursive, -apple-system, system-ui; }
 
     .buttons {
       position: relative;
@@ -44,7 +44,7 @@
       border-radius: 999px;
       border: none;
       cursor: pointer;
-      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive, -apple-system, system-ui;
       touch-action: manipulation;
       z-index: 10;
       transition: transform 0.25s ease;
@@ -73,6 +73,7 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.25);
       pointer-events: none;
       z-index: 1;
+      display: none;
     }
 
     .gif-page {
@@ -83,6 +84,7 @@
       justify-content: center;
       flex-direction: column;
       z-index: 20;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive, -apple-system, system-ui;
     }
 
     .gif-page img {
@@ -126,7 +128,6 @@
     </div>
   </div>
 
-  <!-- Only one image visible at a time -->
   <img id="popupImg" class="popup-img" />
 
   <div class="gif-page" id="gifPage">
@@ -178,8 +179,8 @@
     if (unused.length === 0) unused = [...images];
     const imgSrc = unused.splice(Math.floor(Math.random() * unused.length), 1)[0];
 
-    // Replace the old image with new one
     popupImg.src = imgSrc;
+    popupImg.style.display = 'block';
 
     let imgX, imgY;
     do {
@@ -208,10 +209,17 @@
     }
   }
 
+  window.addEventListener('DOMContentLoaded', () => {
+    card.style.display = 'block';
+    gifPage.style.display = 'none';
+    popupImg.style.display = 'none';
+  });
+
   noBtn.addEventListener('click', moveNo);
   noBtn.addEventListener('touchstart', moveNo);
 
   yesBtn.addEventListener('click', () => {
+    popupImg.style.display = 'none';
     card.style.display = 'none';
     gifPage.style.display = 'flex';
     startConfetti();
