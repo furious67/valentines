@@ -2,244 +2,222 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Be My Valentine?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>valentine 💚</title>
+
+  <!-- Comic Neue (iOS-compatible Comic Sans alternative) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
 
   <style>
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; font-family: 'Comic Sans MS', cursive, sans-serif !important; }
-
-    html, body {
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-      font-family: 'Comic Sans MS', cursive, sans-serif !important;
+    * {
+      box-sizing: border-box;
+      font-family: 'Comic Neue', cursive !important;
     }
 
-    body {
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #cfeecf;
+    }
+
+    .page {
+      width: 100vw;
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #c7e8c2, #e8f5e6);
+      position: relative;
     }
 
+    /* CARD */
     .card {
-      position: relative;
-      background: #c7e8c2;
-      padding: 1rem;
-      border-radius: 16px;
+      background: #cfeecf;
+      border-radius: 20px;
+      padding: 20px;
+      width: min(320px, 90vw);
       text-align: center;
-      width: min(80vw, 280px);
-      max-height: 80vh;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      font-family: 'Comic Sans MS', cursive, sans-serif !important;
+      z-index: 10;
     }
 
     h1 {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-      font-family: 'Comic Sans MS', cursive, sans-serif !important;
+      font-size: 24px;
+      color: black;
+      margin-bottom: 20px;
     }
 
     .buttons {
       position: relative;
-      height: 120px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 100%;
+      height: 140px;
     }
 
     button {
-      position: absolute;
-      padding: 0.6rem 1rem;
-      font-size: 1rem;
-      border-radius: 999px;
+      font-size: 18px;
+      padding: 12px 18px;
+      border-radius: 12px;
       border: none;
       cursor: pointer;
-      font-family: 'Comic Sans MS', cursive, sans-serif !important;
-      touch-action: manipulation;
-      z-index: 1010;
-      transition: transform 0.25s ease;
+      position: absolute;
     }
 
-    #yes {
-      background: #e63946;
-      color: white;
+    #yesBtn {
+      background: #8ee58e;
       left: 50%;
+      transform: translateX(-50%);
       bottom: 0;
-      transform: translateX(-50%);
+      z-index: 1;
     }
 
-    #no {
-      background: #f1f1f1;
-      color: #333;
+    #noBtn {
+      background: #ffb3b3;
       left: 50%;
-      top: 0;
       transform: translateX(-50%);
+      top: 0;
+      z-index: 5;
     }
 
-    .popup-img {
-      position: fixed;
-      max-width: 150px;
-      border-radius: 14px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    /* FROG IMAGE */
+    .frog {
+      position: absolute;
+      max-width: 180px;
+      z-index: 20;
       pointer-events: none;
-      z-index: 1100;
-      display: none;
     }
 
+    /* SECOND PAGE */
     .gif-page {
       display: none;
-      position: fixed;
-      inset: 0;
-      align-items: center;
-      justify-content: center;
       flex-direction: column;
-      z-index: 2000;
-      font-family: 'Comic Sans MS', cursive, sans-serif !important;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .yay {
+      font-size: 32px;
+      z-index: 5;
     }
 
     .gif-page img {
-      max-width: 85vw;
-      max-height: 60vh;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      max-width: 80vw;
+      max-height: 50vh;
+      border-radius: 16px;
+      z-index: 5;
     }
 
-    .yay { font-size: 2rem; color: #e63946; margin-bottom: 1rem; text-align: center; font-family: 'Comic Sans MS', cursive, sans-serif !important; }
-
+    /* CONFETTI */
     .confetti {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 2100;
-    }
-
-    .confetti-piece {
       position: absolute;
-      width: 10px;
-      height: 10px;
-      opacity: 0.8;
+      width: 8px;
+      height: 8px;
+      background: red;
       animation: fall linear infinite;
+      top: -10px;
+      z-index: 1;
     }
 
     @keyframes fall {
-      from { transform: translateY(-10vh) rotate(0deg); }
-      to { transform: translateY(110vh) rotate(360deg); }
+      to {
+        transform: translateY(110vh) rotate(360deg);
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="card" id="card">
-    <h1>michele, will you be my valentine? 💘</h1>
-    <div class="buttons" id="buttonArea">
-      <button id="no">No</button>
-      <button id="yes">Yes 💕</button>
+<div class="page" id="page1">
+  <div class="card">
+    <h1>michele, will you be my valentine?</h1>
+    <div class="buttons">
+      <button id="noBtn">no</button>
+      <button id="yesBtn">yes</button>
     </div>
   </div>
+</div>
 
-  <img id="popupImg" class="popup-img" />
-
-  <div class="gif-page" id="gifPage">
-    <div class="yay">YAY! 🎉🎉🎉</div>
-    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGYzcnljbDdjMzFudjR5dGdoZnRyeGd5YXg4NGkzN3BxaGswbjk0YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kVUyaJy5RZ6OCtRppP/giphy.gif" />
-    <div class="confetti" id="confetti"></div>
-  </div>
+<div class="page gif-page" id="page2">
+  <div class="yay">YAY! 🎉🎉🎉</div>
+  <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGYzcnljbDdjMzFudjR5dGdoZnRyeGd5YXg4NGkzN3BxaGswbjk0YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kVUyaJy5RZ6OCtRppP/giphy.gif" alt="yay gif">
+</div>
 
 <script>
-  const noBtn = document.getElementById('no');
-  const yesBtn = document.getElementById('yes');
-  const card = document.getElementById('card');
-  const gifPage = document.getElementById('gifPage');
-  const area = document.getElementById('buttonArea');
-  const popupImg = document.getElementById('popupImg');
-  const confetti = document.getElementById('confetti');
-
   const images = [
-    'https://i.imgur.com/SzUQQWo.png','https://i.imgur.com/DElnRj0.png','https://i.imgur.com/tUqLuE8.jpeg','https://i.imgur.com/akrXQfp.jpeg','https://i.imgur.com/McUZoDm.jpeg','https://i.imgur.com/8A1sxAz.png','https://i.imgur.com/UD2dYUo.jpeg','https://i.imgur.com/fbbXhG1.png',
-    'https://i.imgur.com/5Z01rYB.png','https://i.imgur.com/Nn0UWqb.jpeg','https://i.imgur.com/MmDMkLE.png','https://i.imgur.com/feRUFV1.jpeg','https://i.imgur.com/yhgP8Oi.png','https://i.imgur.com/WmmokGZ.jpeg','https://i.imgur.com/xCYsXCx.png','https://i.imgur.com/3cvYuN3.jpeg'
+    "https://i.imgur.com/5Z01rYB.png",
+    "https://i.imgur.com/Nn0UWqb.jpeg",
+    "https://i.imgur.com/MmDMkLE.png",
+    "https://i.imgur.com/feRUFV1.jpeg",
+    "https://i.imgur.com/yhgP8Oi.png",
+    "https://i.imgur.com/WmmokGZ.jpeg",
+    "https://i.imgur.com/xCYsXCx.png",
+    "https://i.imgur.com/3cvYuN3.jpeg",
+    "https://i.imgur.com/SzUQQWo.png",
+    "https://i.imgur.com/DElnRj0.png",
+    "https://i.imgur.com/tUqLuE8.jpeg",
+    "https://i.imgur.com/akrXQfp.jpeg",
+    "https://i.imgur.com/McUZoDm.jpeg",
+    "https://i.imgur.com/8A1sxAz.png",
+    "https://i.imgur.com/UD2dYUo.jpeg",
+    "https://i.imgur.com/fbbXhG1.png"
   ];
 
-  let unused = [...images];
+  let remainingImages = [...images];
+  let currentFrog = null;
   let yesScale = 1;
 
-  function moveNo() {
-    const areaRect = area.getBoundingClientRect();
-    const noRect = noBtn.getBoundingClientRect();
-    const yesRect = yesBtn.getBoundingClientRect();
-    const padding = 20;
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const page1 = document.getElementById("page1");
+  const page2 = document.getElementById("page2");
 
-    let x, y, tries = 0;
-    do {
-      x = Math.random() * (areaRect.width - noRect.width);
-      y = Math.random() * (areaRect.height - noRect.height);
-      tries++;
-    } while (
-      tries < 50 &&
-      x + noRect.width + padding > yesRect.left - areaRect.left &&
-      x < yesRect.right - areaRect.left + padding &&
-      y + noRect.height + padding > yesRect.top - areaRect.top &&
-      y < yesRect.bottom - areaRect.top + padding
-    );
-
-    noBtn.style.left = x + 'px';
-    noBtn.style.top = y + 'px';
-    noBtn.style.transform = 'none';
-
-    if (unused.length === 0) unused = [...images];
-    const imgSrc = unused.splice(Math.floor(Math.random() * unused.length), 1)[0];
-
-    popupImg.src = imgSrc;
-    popupImg.style.display = 'block';
-    popupImg.style.zIndex = '1001';
-
-    let imgX, imgY;
-    do {
-      imgX = Math.random() * (window.innerWidth - 150);
-      imgY = Math.random() * (window.innerHeight - 150);
-    } while (
-      imgX > card.offsetLeft - 150 && imgX < card.offsetLeft + card.offsetWidth &&
-      imgY > card.offsetTop - 150 && imgY < card.offsetTop + card.offsetHeight
-    );
-
-    popupImg.style.left = imgX + 'px';
-    popupImg.style.top = imgY + 'px';
-
-    yesScale += 0.05;
-    yesBtn.style.transform = `translateX(-50%) scale(${yesScale})`;
-  }
-
-  function startConfetti() {
-    for (let i = 0; i < 160; i++) {
-      const p = document.createElement('div');
-      p.className = 'confetti-piece';
-      p.style.left = Math.random() * 100 + 'vw';
-      p.style.backgroundColor = `hsl(${Math.random()*360},100%,50%)`;
-      p.style.animationDuration = 2 + Math.random()*2 + 's';
-      confetti.appendChild(p);
+  noBtn.addEventListener("click", () => {
+    if (remainingImages.length === 0) {
+      remainingImages = [...images];
     }
-  }
 
-  window.addEventListener('DOMContentLoaded', () => {
-    card.style.display = 'block';
-    gifPage.style.display = 'none';
-    popupImg.style.display = 'none';
+    if (currentFrog) currentFrog.remove();
+
+    const img = document.createElement("img");
+    img.src = remainingImages.splice(Math.floor(Math.random() * remainingImages.length), 1)[0];
+    img.className = "frog";
+
+    img.style.left = "50%";
+    img.style.top = "10%";
+    img.style.transform = "translateX(-50%)";
+
+    document.body.appendChild(img);
+    currentFrog = img;
+
+    const maxX = window.innerWidth - 100;
+    const maxY = 120;
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
+
+    yesScale += 0.1;
+    yesBtn.style.transform = `translateX(-50%) scale(${yesScale})`;
   });
 
-  noBtn.addEventListener('click', moveNo);
-  noBtn.addEventListener('touchstart', moveNo);
+  yesBtn.addEventListener("click", () => {
+    if (currentFrog) currentFrog.remove();
 
-  yesBtn.addEventListener('click', () => {
-    popupImg.style.display = 'none';
-    card.style.display = 'none';
-    gifPage.style.display = 'flex';
+    page1.style.display = "none";
+    page2.style.display = "flex";
     startConfetti();
   });
+
+  function startConfetti() {
+    setInterval(() => {
+      const c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = Math.random() * window.innerWidth + "px";
+      c.style.animationDuration = (Math.random() * 2 + 2) + "s";
+      c.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4000);
+    }, 150);
+  }
 </script>
 
 </body>
