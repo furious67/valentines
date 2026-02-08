@@ -2,54 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Be My Valentine?</title>
 
   <style>
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+      overflow: hidden;
+    }
 
     body {
-      margin: 0;
-      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       background: linear-gradient(135deg, #c7e8c2, #e8f5e6);
-      font-family: 'Comic Sans MS', 'Comic Sans', cursive, -apple-system, system-ui;
-      overflow: hidden;
     }
 
     .card {
       position: relative;
-      background: #c7e8c2; /* pastel green */
-      padding: 1.5rem 1rem;
+      background: #c7e8c2;
+      padding: 1rem;
       border-radius: 16px;
       text-align: center;
-      width: min(85vw, 300px);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+      width: min(80vw, 280px);
+      max-height: 80vh;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       z-index: 1000;
-      font-family: 'Comic Sans MS', 'Comic Sans', cursive, -apple-system, system-ui;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     h1 {
-      font-size: 1.5rem;
-      margin-bottom: 1.2rem;
-      font-family: 'Comic Sans MS', 'Comic Sans', cursive, -apple-system, system-ui;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
     }
 
     .buttons {
       position: relative;
-      height: 140px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     button {
       position: absolute;
-      padding: 0.7rem 1.2rem;
+      padding: 0.6rem 1rem;
       font-size: 1rem;
       border-radius: 999px;
       border: none;
       cursor: pointer;
-      font-family: 'Comic Sans MS', 'Comic Sans', cursive, -apple-system, system-ui;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
       touch-action: manipulation;
       z-index: 1010;
       transition: transform 0.25s ease;
@@ -73,7 +82,7 @@
 
     .popup-img {
       position: fixed;
-      max-width: 180px;
+      max-width: 150px;
       border-radius: 14px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.25);
       pointer-events: none;
@@ -89,7 +98,7 @@
       justify-content: center;
       flex-direction: column;
       z-index: 2000;
-      font-family: 'Comic Sans MS', 'Comic Sans', cursive, -apple-system, system-ui;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
     }
 
     .gif-page img {
@@ -99,7 +108,7 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.25);
     }
 
-    .yay { font-size: 2.2rem; color: #e63946; margin-bottom: 1rem; }
+    .yay { font-size: 2rem; color: #e63946; margin-bottom: 1rem; text-align: center; }
 
     .confetti {
       position: fixed;
@@ -186,15 +195,15 @@
 
     popupImg.src = imgSrc;
     popupImg.style.display = 'block';
-    popupImg.style.zIndex = '1001'; // above card
+    popupImg.style.zIndex = '1001';
 
     let imgX, imgY;
     do {
-      imgX = Math.random() * (window.innerWidth - 180);
-      imgY = Math.random() * (window.innerHeight - 180);
+      imgX = Math.random() * (window.innerWidth - 150);
+      imgY = Math.random() * (window.innerHeight - 150);
     } while (
-      imgX > card.offsetLeft - 180 && imgX < card.offsetLeft + card.offsetWidth &&
-      imgY > card.offsetTop - 180 && imgY < card.offsetTop + card.offsetHeight
+      imgX > card.offsetLeft - 150 && imgX < card.offsetLeft + card.offsetWidth &&
+      imgY > card.offsetTop - 150 && imgY < card.offsetTop + card.offsetHeight
     );
 
     popupImg.style.left = imgX + 'px';
